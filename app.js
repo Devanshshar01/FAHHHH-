@@ -40,8 +40,14 @@
   async function loadModel() {
     try {
       console.log('[FAHHH] Loading model from', MODEL_PATH);
-      model = await tf.loadLayersModel(MODEL_PATH);
-      console.log('[FAHHH] Model loaded successfully.');
+      // Try graph model first (from tensorflowjs_converter), fall back to layers model
+      try {
+        model = await tf.loadGraphModel(MODEL_PATH);
+        console.log('[FAHHH] Graph model loaded successfully.');
+      } catch (_) {
+        model = await tf.loadLayersModel(MODEL_PATH);
+        console.log('[FAHHH] Layers model loaded successfully.');
+      }
     } catch (err) {
       console.error('[FAHHH] Model load failed:', err);
       alert(
@@ -96,8 +102,8 @@
         .expandDims(0);                 // shape [1, 224, 224, 3]
     });
 
-    // model.predict returns shape [1, 2] — [closed_mouth, open_mouth]
-    const prediction = model.predict(tensor);
+    // Run prediction — works with both graph models (.execute) and layers models (.predict)
+    const prediction = model.predict ? model.predict(tensor) : model.execute(tensor);
     const probs = prediction.dataSync();  // Float32Array of length 2
 
     // Dispose tensors to prevent memory leaks
