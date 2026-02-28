@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAHHH! — Mouth Detection Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>FAHHH!</h1>
+    <p class="subtitle">Open your mouth to score — if you dare!</p>
+  </header>
+
+  <main>
+    <!-- Webcam + overlay container -->
+    <section id="cam-container">
+      <video id="webcam" autoplay playsinline muted></video>
+      <canvas id="overlay"></canvas>
+      <div id="fahhh-text" class="hidden">FAHHH!</div>
+    </section>
+
+    <!-- HUD: status + score -->
+    <section id="hud">
+      <div id="status" data-state="closed">CLOSED</div>
+      <div id="score">Score: <span id="score-value">0</span></div>
+    </section>
+  </main>
+
+  <!-- Sound effect -->
+  <audio id="fahhh-sound" src="fahhhhhhhhhhhhhh.mp3" preload="auto"></audio>
+
+  <!-- TensorFlow.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+
+  <!-- Application logic -->
+  <script src="app.js"></script>
+</body>
+</html>
